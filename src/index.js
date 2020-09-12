@@ -31,7 +31,7 @@ const gameState = {
     y: 7,
   },
   //Size of game screen
-  gridsize: 20,
+  gridSize: 20,
 };
 
 function init() {
