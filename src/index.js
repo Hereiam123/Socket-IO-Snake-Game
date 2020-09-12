@@ -47,4 +47,27 @@ function keydown(e) {
   console.log(e.keyCode);
 }
 
+function paintGame(state) {
+  ctx.fillStyle = BG_COLOR;
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  const food = state.food;
+  const gridsize = state.gridSize;
+
+  //Helps to calculate positional state x,y space coordinate to grid space
+  const size = canvas.width / gridsize;
+
+  ctx.fillStyle = FOOD_COLOR;
+  ctx.fillRect(food.x * size, food.y * size, size, size);
+
+  paintPlayer(state.player, size, SNAKE_COLOR);
+}
+
+function paintPlayer(playerState, size, color) {
+  const snake = playerState.snake;
+  for (let cell of snake) {
+    ctx.fillRect(cell.x * size, cell.y * size, size, size);
+  }
+}
+
 init();
+paintGame(gameState);
