@@ -5,9 +5,10 @@ const gameScreen = document.getElementById("gameScreen");
 
 const socket = io("http://localhost:3000");
 
-//Socket IO handles
+//Socket IO handlers
 socket.on("init", handleInit);
 socket.on("gameState", handleGameState);
+socket.on("gameOver", handleGameOver);
 
 let canvas, ctx;
 
@@ -64,4 +65,9 @@ function handleGameState(gameState) {
   requestAnimationFrame(function () {
     paintGame(gameState);
   });
+}
+
+//Handle Game over
+function handleGameOver() {
+  alert("You lose!");
 }

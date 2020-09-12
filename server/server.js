@@ -20,7 +20,14 @@ io.on("connection", (client) => {
     const vel = getUpdatedVelocity(keyCode);
 
     if (vel) {
-      state.player.vel = vel;
+      //Bitwise check to see if player is pressing opposite direction of current, to prevent
+      //auto loss
+      if (
+        (vel.x ^ state.player.vel.x) > -2 &&
+        (vel.y ^ state.player.vel.y) > -2
+      ) {
+        state.player.vel = vel;
+      }
     }
   }
 
