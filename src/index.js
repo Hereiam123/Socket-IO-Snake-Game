@@ -5,10 +5,9 @@ const gameScreen = document.getElementById("gameScreen");
 
 const socket = io("http://localhost:3000");
 
+//Socket IO handles
 socket.on("init", handleInit);
-function handleInit(msg) {
-  console.log(msg);
-}
+socket.on("gamestate", handleGameState);
 
 let canvas, ctx;
 
@@ -81,4 +80,16 @@ function paintPlayer(playerState, size, color) {
   }
 }
 
-paintGame(gameState);
+//Handle paint game on init
+function handleInit(msg) {
+  console.log(msg);
+  paintGame(gameState);
+}
+
+//Handle gamestate
+function handleGameState(gameState) {
+  gameState = JSON.parse(gameState);
+  requestAnimationFrame(function () {
+    paintGame(gameState);
+  });
+}
