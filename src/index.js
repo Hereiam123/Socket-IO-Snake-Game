@@ -6,6 +6,7 @@ const initialScreen = document.getElementById("initialScreen");
 const newGameBtn = document.getElementById("newGameButton");
 const joinGameBtn = document.getElementById("joinGameBtn");
 const gameCodeInput = document.getElementById("gameCodeInput");
+const gameCodeDisplay = document.getElementById("gameCodeDisplay");
 
 newGameBtn.addEventListener("click", newGame);
 joinGameBtn.addEventListener("click", joinGame);
@@ -27,8 +28,12 @@ const socket = io("http://localhost:3000");
 socket.on("init", handleInit);
 socket.on("gameState", handleGameState);
 socket.on("gameOver", handleGameOver);
+socket.on("gameCode", handleGameCode);
 
 let canvas, ctx;
+
+//Player ID
+let playerNumber;
 
 function init() {
   initialScreen.style.display = "none";
@@ -71,10 +76,9 @@ function paintPlayer(playerState, size, color) {
   }
 }
 
-//Handle paint game on init
-function handleInit(msg) {
-  console.log(msg);
-  paintGame(gameState);
+//Handle paint game on room creation
+function handleInit(number) {
+  playerNumber = number;
 }
 
 //Handle gamestate
@@ -88,4 +92,9 @@ function handleGameState(gameState) {
 //Handle Game over
 function handleGameOver() {
   alert("You lose!");
+}
+
+//Handle Game Code
+function handleGameCode(gameCode) {
+  gameCodeDisplay.innerText = gameCode;
 }

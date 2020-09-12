@@ -1,6 +1,12 @@
 //Setting up initial game state
 const { GRID_SIZE } = require("./constants");
 
+function initGame() {
+  const state = createGameState();
+  randomFood(state);
+  return state;
+}
+
 function createGameState() {
   //State of the game
   return {
@@ -103,7 +109,7 @@ function getUpdatedVelocity(keyCode) {
 }
 
 module.exports = {
-  createGameState,
+  initGame,
   gameLoop,
   getUpdatedVelocity,
 };
