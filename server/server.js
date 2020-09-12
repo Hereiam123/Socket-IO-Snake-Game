@@ -86,7 +86,7 @@ io.on("connection", (client) => {
   }
 });
 
-io.listen(provess.end.PORT || SERVER_PORT);
+io.listen(process.env.PORT || SERVER_PORT);
 
 //Start game on connection above
 function startGameInterval(gameCode) {
