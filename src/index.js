@@ -30,6 +30,7 @@ socket.on("gameState", handleGameState);
 socket.on("gameOver", handleGameOver);
 socket.on("gameCode", handleGameCode);
 socket.on("unknownGame", handleUnknownGame);
+socket.on("tooManyPlayers", handleTooManyPlayers);
 
 let canvas, ctx;
 
@@ -101,5 +102,22 @@ function handleGameCode(gameCode) {
 }
 
 //Handle unknown game
+function handleUnknownGame() {
+  reset();
+  alert("Unknown game code");
+}
 
 //Handle too many players
+function handleTooManyPlayers() {
+  reset();
+  alert("This game is already full");
+}
+
+//Reset login screen
+function reset() {
+  playerNumber = null;
+  gameCodeInput.value = "";
+  gameCodeDisplay.innerText = "";
+  initialScreen.style.display = "block";
+  gameScreen.style.display = "none";
+}
