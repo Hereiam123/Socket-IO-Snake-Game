@@ -29,6 +29,7 @@ socket.on("init", handleInit);
 socket.on("gameState", handleGameState);
 socket.on("gameOver", handleGameOver);
 socket.on("gameCode", handleGameCode);
+socket.on("unknownGame", handleUnknownGame);
 
 let canvas, ctx;
 
@@ -98,3 +99,7 @@ function handleGameOver() {
 function handleGameCode(gameCode) {
   gameCodeDisplay.innerText = gameCode;
 }
+
+//Handle unknown game
+
+//Handle too many players

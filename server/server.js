@@ -2,6 +2,7 @@ const io = require("socket.io")();
 const { initGame, gameLoop, getUpdatedVelocity } = require("./game");
 const { makeId } = require("./utils");
 const { FRAME_RATE } = require("./constants");
+const game = require("./game");
 const SERVER_PORT = 3000;
 
 const state = {};
@@ -80,17 +81,28 @@ io.on("connection", (client) => {
   }
 });
 
+io.listen(SERVER_PORT);
+
 //Start game on connection above
 function startGameInterval(gameCode) {
   const intervalId = setInterval(() => {
     const winner = gameLoop(state[gameCode]);
     if (!winner) {
-      client.emit("gameState", JSON.stringify(state));
+      emitGameState(gameCode, state[gameCode]);
     } else {
-      client.emit("gameOver");
+      emitGameOver(gameCode, winner);
+      state[gameCode] = null;
       clearInterval(intervalId);
     }
   }, 1000 / FRAME_RATE);
 }
 
-io.listen(SERVER_PORT);
+//Emit current game state to players
+function emitGameState(gameCode, state) {
+  io.sockets.in(gameCode).emit("gameState", JSON.stringify(state));
+}
+
+//Emit game over to players
+function emitGameOver(gameCode, winner) {
+  io.sockets.in(gameCode).emit("gameOver", JSON.stringify({ winner }));
+}
