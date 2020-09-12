@@ -3,6 +3,13 @@ const SNAKE_COLOR = "#c2c2c2";
 const FOOD_COLOR = "#e66916";
 const gameScreen = document.getElementById("gameScreen");
 
+const socket = io("http://localhost:3000");
+
+socket.on("init", handleInit);
+function handleInit(msg) {
+  console.log(msg);
+}
+
 let canvas, ctx;
 
 //State of the game
