@@ -15,6 +15,12 @@ io.on("connection", (client) => {
 
   //Handle front end key down
   function handleKeyDown(keyCode) {
+    const roomName = clientRooms[client.id];
+
+    if (!roomName) {
+      return;
+    }
+
     try {
       keyCode = parseInt(keyCode);
     } catch (e) {
@@ -25,13 +31,13 @@ io.on("connection", (client) => {
     const vel = getUpdatedVelocity(keyCode);
 
     if (vel) {
-      //Bitwise check to see if player is pressing opposite direction of current, to prevent
+      //Bitwise check to see if players is pressing opposite direction of current, to prevent
       //auto loss
       if (
-        (vel.x ^ state.player.vel.x) > -2 &&
-        (vel.y ^ state.player.vel.y) > -2
+        (vel.x ^ state[roomName].players[client.number - 1].vel.x) > -2 &&
+        (vel.y ^ state[roomName].players[client.number - 1].vel.y) > -2
       ) {
-        state.player.vel = vel;
+        state[roomName].players[client.number - 1].vel = vel;
       }
     }
   }

@@ -4,23 +4,12 @@ const FOOD_COLOR = "#e66916";
 const gameScreen = document.getElementById("gameScreen");
 const initialScreen = document.getElementById("initialScreen");
 const newGameBtn = document.getElementById("newGameButton");
-const joinGameBtn = document.getElementById("joinGameBtn");
+const joinGameBtn = document.getElementById("joinGameButton");
 const gameCodeInput = document.getElementById("gameCodeInput");
 const gameCodeDisplay = document.getElementById("gameCodeDisplay");
 
 newGameBtn.addEventListener("click", newGame);
 joinGameBtn.addEventListener("click", joinGame);
-
-function newGame() {
-  socket.emit("newGame");
-  init();
-}
-
-function joinGame() {
-  const code = gameCodeInput.value;
-  socket.emit("joinGame", code);
-  init();
-}
 
 const socket = io("http://localhost:3000");
 
@@ -37,6 +26,20 @@ let canvas, ctx;
 //Player ID
 let playerNumber;
 
+//Is game active
+let gameActive = false;
+
+function newGame() {
+  socket.emit("newGame");
+  init();
+}
+
+function joinGame() {
+  const code = gameCodeInput.value;
+  socket.emit("joinGame", code);
+  init();
+}
+
 function init() {
   initialScreen.style.display = "none";
   gameScreen.style.display = "block";
@@ -46,6 +49,7 @@ function init() {
   ctx.fillStyle = BG_COLOR;
   ctx.fillRect(0, 0, canvas.width, canvas.height);
   document.addEventListener("keydown", keydown);
+  gameActive = true;
 }
 
 //Send pressed key to server
@@ -66,7 +70,8 @@ function paintGame(state) {
   ctx.fillStyle = FOOD_COLOR;
   ctx.fillRect(food.x * size, food.y * size, size, size);
 
-  paintPlayer(state.player, size, SNAKE_COLOR);
+  paintPlayer(state.players[0], size, SNAKE_COLOR);
+  paintPlayer(state.players[1], size, SNAKE_COLOR);
 }
 
 //Paint player
@@ -85,6 +90,9 @@ function handleInit(number) {
 
 //Handle gamestate
 function handleGameState(gameState) {
+  if (!gameActive) {
+    return;
+  }
   gameState = JSON.parse(gameState);
   requestAnimationFrame(function () {
     paintGame(gameState);
@@ -92,8 +100,17 @@ function handleGameState(gameState) {
 }
 
 //Handle Game over
-function handleGameOver() {
-  alert("You lose!");
+function handleGameOver(data) {
+  if (!gameActive) {
+    return;
+  }
+  data = JSON.parse(data);
+  if (data.winner === playerNumber) {
+    alert("You win!");
+  } else {
+    alert("You lose!");
+  }
+  gameActive = false;
 }
 
 //Handle Game Code
