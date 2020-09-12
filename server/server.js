@@ -2,7 +2,6 @@ const io = require("socket.io")();
 const { initGame, gameLoop, getUpdatedVelocity } = require("./game");
 const { makeId } = require("./utils");
 const { FRAME_RATE } = require("./constants");
-const game = require("./game");
 const SERVER_PORT = 3000;
 
 const state = {};
@@ -87,7 +86,7 @@ io.on("connection", (client) => {
   }
 });
 
-io.listen(SERVER_PORT);
+io.listen(provess.end.PORT || SERVER_PORT);
 
 //Start game on connection above
 function startGameInterval(gameCode) {

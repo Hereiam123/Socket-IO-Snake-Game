@@ -11,7 +11,7 @@ const gameCodeDisplay = document.getElementById("gameCodeDisplay");
 newGameBtn.addEventListener("click", newGame);
 joinGameBtn.addEventListener("click", joinGame);
 
-const socket = io("http://localhost:3000");
+const socket = io("https://peaceful-dawn-29073.herokuapp.com/");
 
 //Socket IO handlers
 socket.on("init", handleInit);
