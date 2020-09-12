@@ -7,38 +7,9 @@ const socket = io("http://localhost:3000");
 
 //Socket IO handles
 socket.on("init", handleInit);
-socket.on("gamestate", handleGameState);
+socket.on("gameState", handleGameState);
 
 let canvas, ctx;
-
-//State of the game
-const gameState = {
-  player: {
-    //Position of player
-    pos: {
-      x: 3,
-      y: 10,
-    },
-    //Velocity of player snake
-    vel: {
-      x: 1,
-      y: 0,
-    },
-    //Position of player snake segments
-    snake: [
-      { x: 1, y: 10 },
-      { x: 2, y: 10 },
-      { x: 3, y: 10 },
-    ],
-  },
-  //Position of food on game screen
-  food: {
-    x: 7,
-    y: 7,
-  },
-  //Size of game screen
-  gridSize: 20,
-};
 
 function init() {
   canvas = document.getElementById("canvas");

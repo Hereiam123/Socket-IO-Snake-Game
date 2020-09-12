@@ -58,14 +58,34 @@ function gameLoop(state) {
     randomFood();
   }
 
-  /*Check if player has collided when themselves*/
   //Check if player is moving first
   if (playerOne.vel.x || playerOne.vel.y) {
+    /*Check if player has collided when themselves*/
     for (let segment of playerOne.snake) {
       if (segment.x === playerOne.pos.x && segment.y === playerOne.pos.y) {
+        return 2;
       }
     }
+    //Move player front and shift the back up, to simulate movement
+    playerOne.snake.push({ ...playerOne.pos });
+    playerOne.snake.shift();
   }
+  return false;
+}
+
+//Create random food
+function randomFood(state) {
+  food = {
+    x: Math.floor(Math.random() * GRID_SIZE),
+    y: Math.floor(Math.random() * GRID_SIZE),
+  };
+  //Make sure we aren't adding food on top of snake
+  for (let segment of playerOne.snake) {
+    if (segment.x === food.x && segment.y === food.y) {
+      return randomFood(state);
+    }
+  }
+  state.food = food;
 }
 
 module.exports = {
