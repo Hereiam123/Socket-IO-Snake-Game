@@ -63,6 +63,8 @@ function gameLoop(state) {
   const playerTwo = state.players[1];
   playerOne.pos.x += playerOne.vel.x;
   playerOne.pos.y += playerOne.vel.y;
+  playerTwo.pos.x += playerTwo.vel.x;
+  playerTwo.pos.y += playerTwo.vel.y;
   //Check if exited game stage, and return number of player who won
   if (
     playerOne.pos.x < 0 ||
