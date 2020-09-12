@@ -50,7 +50,7 @@ function gameLoop(state) {
   }
   //Check if player has 'eaten' on a food block
   //Add current player position to original player position
-  if (state.food.x === playerOne.pos.x && state.foox.y === playerOne.pos.y) {
+  if (state.food.x === playerOne.pos.x && state.food.y === playerOne.pos.y) {
     playerOne.snake.push({ ...playerOne.pos });
     playerOne.pos.x += playerOne.vel.x;
     playerOne.pos.y += playerOne.vel.y;
