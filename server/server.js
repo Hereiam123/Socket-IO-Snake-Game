@@ -7,6 +7,7 @@ io.on("connection", (client) => {
   const state = createGameState();
 
   client.on("keydown", handleKeyDown);
+  client.on("newGame", handleNewGame);
 
   //Handle front end key down
   function handleKeyDown(keyCode) {
@@ -29,6 +30,11 @@ io.on("connection", (client) => {
         state.player.vel = vel;
       }
     }
+  }
+
+  //Handle new game
+  function handleNewGame() {
+    let roomName = makeId();
   }
 
   startGameInterval(client, state);
