@@ -1,5 +1,5 @@
 const io = require("socket.io")();
-const { createGameState } = require("./game");
+const { createGameState, gameLoop } = require("./game");
 const { FRAME_RATE } = require("./constants");
 const SERVER_PORT = 3000;
 

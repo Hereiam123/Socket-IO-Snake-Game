@@ -32,6 +32,43 @@ function createGameState() {
   };
 }
 
+function gameLoop(state) {
+  if (!state) {
+    return;
+  }
+  const playerOne = state.player;
+  playerOne.pos.x += playerOne.vel.x;
+  playerOne.pos.y += playerOne.vel.y;
+  //Check if exited game stage
+  if (
+    playerOne.pos.x < 0 ||
+    playerOne.pos.x > GRID_SIZE ||
+    playerOne.pos.y < 0 ||
+    playerOne.pos.y > GRID_SIZE
+  ) {
+    return 2;
+  }
+  //Check if player has 'eaten' on a food block
+  //Add current player position to original player position
+  if (state.food.x === playerOne.pos.x && state.foox.y === playerOne.pos.y) {
+    playerOne.snake.push({ ...playerOne.pos });
+    playerOne.pos.x += playerOne.vel.x;
+    playerOne.pos.y += playerOne.vel.y;
+    //Create new food to eat
+    randomFood();
+  }
+
+  /*Check if player has collided when themselves*/
+  //Check if player is moving first
+  if (playerOne.vel.x || playerOne.vel.y) {
+    for (let segment of playerOne.snake) {
+      if (segment.x === playerOne.pos.x && segment.y === playerOne.pos.y) {
+      }
+    }
+  }
+}
+
 module.exports = {
   createGameState,
+  gameLoop,
 };
