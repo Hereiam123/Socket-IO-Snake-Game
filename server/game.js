@@ -55,7 +55,7 @@ function gameLoop(state) {
     playerOne.pos.x += playerOne.vel.x;
     playerOne.pos.y += playerOne.vel.y;
     //Create new food to eat
-    randomFood();
+    randomFood(state);
   }
 
   //Check if player is moving first
@@ -80,7 +80,7 @@ function randomFood(state) {
     y: Math.floor(Math.random() * GRID_SIZE),
   };
   //Make sure we aren't adding food on top of snake
-  for (let segment of playerOne.snake) {
+  for (let segment of state.player.snake) {
     if (segment.x === food.x && segment.y === food.y) {
       return randomFood(state);
     }
@@ -88,7 +88,22 @@ function randomFood(state) {
   state.food = food;
 }
 
+//Return velocity updated if arrow key is pressed
+function getUpdatedVelocity(keyCode) {
+  switch (keyCode) {
+    case 37: //Left
+      return { x: -1, y: 0 };
+    case 38: //Down
+      return { x: 0, y: -1 };
+    case 39: //Right
+      return { x: 1, y: 0 };
+    case 40: //Up
+      return { x: 0, y: 1 };
+  }
+}
+
 module.exports = {
   createGameState,
   gameLoop,
+  getUpdatedVelocity,
 };

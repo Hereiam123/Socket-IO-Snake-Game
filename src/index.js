@@ -20,8 +20,9 @@ function init() {
   document.addEventListener("keydown", keydown);
 }
 
+//Send pressed key to server
 function keydown(e) {
-  console.log(e.keyCode);
+  socket.emit("keydown", e.keyCode);
 }
 
 init();
