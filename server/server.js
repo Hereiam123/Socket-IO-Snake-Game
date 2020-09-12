@@ -3,9 +3,10 @@ const { createGameState, gameLoop, getUpdatedVelocity } = require("./game");
 const { FRAME_RATE } = require("./constants");
 const SERVER_PORT = 3000;
 
-io.on("connection", (client) => {
-  const state = createGameState();
+const state = {};
+const clientRooms = {};
 
+io.on("connection", (client) => {
   client.on("keydown", handleKeyDown);
   client.on("newGame", handleNewGame);
 
@@ -34,7 +35,10 @@ io.on("connection", (client) => {
 
   //Handle new game
   function handleNewGame() {
-    let roomName = makeId();
+    let roomName = makeId(5);
+    clientRooms[client.id] = roomName;
+    client.emit("gameCode", roomName);
+    state[roomName] = createGameState();
   }
 
   startGameInterval(client, state);
