@@ -47,6 +47,9 @@ function keydown(e) {
   console.log(e.keyCode);
 }
 
+init();
+
+//Paint game screen
 function paintGame(state) {
   ctx.fillStyle = BG_COLOR;
   ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -62,12 +65,13 @@ function paintGame(state) {
   paintPlayer(state.player, size, SNAKE_COLOR);
 }
 
+//Paint player
 function paintPlayer(playerState, size, color) {
   const snake = playerState.snake;
-  for (let cell of snake) {
-    ctx.fillRect(cell.x * size, cell.y * size, size, size);
+  ctx.fillStyle = color;
+  for (let segment of snake) {
+    ctx.fillRect(segment.x * size, segment.y * size, size, size);
   }
 }
 
-init();
 paintGame(gameState);
